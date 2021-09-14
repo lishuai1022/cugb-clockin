@@ -19,7 +19,7 @@ function cugbClockin()
         'allow_redirects' => ['max' => 10], //最大重定向次数
     ]);
     //1.get请求登录页，获取execution和system参数
-    $url = 'https://cas.cugb.edu.cn/login?service=http://stu.cugb.edu.cn/ ';
+    $url = 'https://cas.cugb.edu.cn/login?service=https://stu.cugb.edu.cn/ ';
     $html = $client->get($url)->getBody()->getContents();
     $pattern = '/name="execution" value="(.*?)"\/>.*id="userLoginSystem" name="system"\n *value="(.*?)">/';
     preg_match($pattern, $html, $matches); //匹配execution和system参数
@@ -37,8 +37,8 @@ function cugbClockin()
         'enableCaptcha' => 'N',
     ];
     $html = $client->post('https://cas.cugb.edu.cn/login', ['form_params' => $data])->getBody()->getContents();
-    //当登录成功时，页面会有“此页面不存在”
-    if (strpos($html, '此页面不存在') === false) {
+    //当登录成功时，页面会有“加载中”
+    if (strpos($html, '加载中') === false) {
         echo '登录失败，账号或密码错误';
         die;
     }
@@ -55,7 +55,7 @@ function cugbClockin()
     $url = 'https://stu.cugb.edu.cn/syt/zzapply/operation.htm';
     $data = [
         'xmqkb'              => ['id' => '4a4ce9d6725c1d4001725e38fbdb07cd'],
-        'c1'                 => '36.9℃以下',
+        'c1'                 => '37.2℃及以下',
         'c2'                 => '健康',
         'c17'                => '否',
         'c4'                 => '否',
